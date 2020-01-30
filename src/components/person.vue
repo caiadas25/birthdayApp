@@ -1,7 +1,7 @@
 <template>
   <div class="person-container">
+      Closest birthday is: {{this.getClosestDate()}}
     <div class="person" v-for= "person in people" :key="person.id">
-      {{person.name}},
       {{person.birthDay}}
       {{person.birthMonth}}
     <router-link :to="{name: 'viewPerson', params: {name: person.name}}">
@@ -12,7 +12,6 @@
     </div>
   </div>
 </template>
-<script src="moment.js"></script>
 <script>
 import db from '../firebase/firebaseInit.js';
 
@@ -23,7 +22,7 @@ export default {
       return 'birthMonth';
     },
     getData(){
-      db.collection('people').orderBy(this.dateString()).limit(9).get().then(querySnapshot => {
+      db.collection('people').orderBy(this.dateString()).get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
           const data = {
             'id': doc.id,
@@ -34,49 +33,42 @@ export default {
             'date': doc.data().date,
           }
           this.people.push(data);
+          let formattedBirthday = doc.data().birthDay + '/' + doc.data().birthMonth;
           return data;
         })
       })
     },
-    getClosestDateToCurrentDate() {
-      const dates = [
-        '2/3/3000',
-        '7/5/3000',
-        '1/21/3000',
-        '2/19/3000',
-        '7/1/3000',
-        '10/22/3000',
-        '08/12/3000',
-      ];
 
-      const now = new Date();
-      let closest = Infinity;
+    getDatesAsMiliseconds(){
 
-      dates.forEach(function(d) {
-        const date = new Date(d);
-        if (date >= now && (date < new Date(closest) || date < closest)) {
-          console.log('tasfas' + closest)
-            closest = d;
-        }
+      let dates = ["05/01", "01/01", "27/01", "22/12", "12/11", "03/04", "10/02", "08/08",].map(s => {
+        let datesAsMiliseconds = (moment(s, "DD/MM")._d.getTime()) - Date.now();
+        //console.log(datesAsMiliseconds)
+        return datesAsMiliseconds;
       });
+      let datesAsMiliseconds = dates;
+      return datesAsMiliseconds;
     },
-    getClosestDateToCurrentDate2() {
-      var next = [
-        "05/01",
-        "10/02",
-        "10/09",
-        "10/03"
-      ].map(function(s){
-        return moment(s, "DD/MM");
-      })
-      .sort(function(m){
-        return m.valueOf();
-      })
-      .find(function(m){return m.isAfter();});
 
-      if (next) {
-        console.log("Next time is", next.format("DD/MM"), "which is", next.fromNow());
+    getDaysInTheFuture() {
+      let datesAsMiliseconds = this.getDatesAsMiliseconds();
+      function getPositiveNumbers(array) {
+        return array.filter(value => value > 0);
       }
+      let daysInTheFuture = getPositiveNumbers(datesAsMiliseconds);
+      return daysInTheFuture;
+    },
+    convertMilisecondsToDate() {
+      let datesInFutureInMiliseconds = this.getDaysInTheFuture();
+      const converted = datesInFutureInMiliseconds.map(n => n + Date.now());
+      const sorted = converted.sort();
+      const parsed = sorted.map(n => moment(n).format("DD/MM/YYYY"));
+      console.log(parsed)
+      return parsed;
+    },
+    getClosestDate() {
+      //console.log(this.convertMilisecondsToDate()[0]);
+      return this.convertMilisecondsToDate()[0];
     }
   },
 
@@ -86,8 +78,11 @@ export default {
     }
   },
   created() {
-    this.getClosestDateToCurrentDate2();
+    this.getDatesAsMiliseconds();
     this.getData();
+    this.getDaysInTheFuture();
+    this.convertMilisecondsToDate();
+    this.getClosestDate();
   },
 }
 </script>
