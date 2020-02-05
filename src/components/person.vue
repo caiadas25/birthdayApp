@@ -19,14 +19,28 @@ export default {
     },
 
     getDatesAsMiliseconds(firebaseData){
-      //console.log(firebaseData)
-      let dates = (firebaseData).map(s => {
+      console.log(firebaseData)
+
+      let birthDayAndBirthMonth = [];
+
+      for (let i = 0; i < firebaseData.length; i++) {
+        let birthDay = firebaseData[i].birthDay;
+        let birthMonth = firebaseData[i].birthMonth;
+        let name = firebaseData[i].name;
+        let formattedBirthDate = birthDay + '/' + birthMonth;
+        birthDayAndBirthMonth.push(formattedBirthDate);
+      }
+
+      console.log(birthDayAndBirthMonth);
+      let datesToProcess = (birthDayAndBirthMonth).map(s => {
         let datesAsMiliseconds = (moment(s, "DD/MM")._d.getTime()) - Date.now();
         return datesAsMiliseconds;
       });
-      let datesAsMiliseconds = dates;
+      let datesAsMiliseconds = datesToProcess;
       return datesAsMiliseconds;
     },
+
+
 
     getDaysInTheFuture(datesAsMiliseconds) {
       //let datesAsMiliseconds = this.getDatesAsMiliseconds();
@@ -41,13 +55,13 @@ export default {
       // let datesInFutureInMiliseconds = this.getDaysInTheFuture();
       const converted = datesInFutureInMiliseconds.map(n => n + Date.now());
       const sorted = converted.sort();
-      const parsed = sorted.map(n => moment(n).format("DD/MM/YYYY"));
+      const parsed = sorted.map(n => moment(n).format("DD/MM"));
       return parsed;
     },
 
     getClosestDate(parsedDates) {
       // return this.convertMilisecondsToDate()[0];
-      //console.log(parsedDates, parsedDates[0]);
+      console.log(parsedDates[0]);
       return parsedDates[0];
     }
   },
