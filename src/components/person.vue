@@ -1,7 +1,12 @@
 <template>
   <div class="person-container"
       v-if="!(parsedDates.length === 0)">
-      {{this.people[0].birthDay}}/{{this.people[0].birthMonth}}, {{this.people[0].name}} ---->{{this.people[0].parsed}}
+      <div class="person-date-element">
+        {{this.people[0].birthDay}}/{{this.people[0].birthMonth}}
+      </div>
+      <div class="person-date-element">
+        {{this.people[0].name}}
+      </div>
   </div>
 </template>
 <script>
@@ -18,7 +23,7 @@ export default {
     },
 
     buildObject(firebaseData){
-      //console.log(firebaseData)
+
       return firebaseData
     },
 
@@ -30,7 +35,6 @@ export default {
         let birthDay = firebaseData[i].birthDay;
         let birthMonth = firebaseData[i].birthMonth;
         let name = firebaseData[i].name;
-        let data = firebaseData[i].data;
         let formattedBirthDate = birthDay + '/' + birthMonth;
         //add dataFormatada property to all objects
         firebaseData[i].dataFormatada = formattedBirthDate;
@@ -118,8 +122,15 @@ export default {
 .person-container {
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
-  color: white
+  color: white;
+  border: 1px solid white;
+  width: fit-content;
+  margin: 0 auto;
+}
+.person-date-element {
+  font-size: 42px;
 }
 .person {
   width: 230px;
