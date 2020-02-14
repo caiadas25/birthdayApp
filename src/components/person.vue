@@ -38,6 +38,8 @@ export default {
         firebaseData[i].birthdaysInFuture = firebaseData[i].birthdaysInMiliseconds.filter(value => value > 0);
         firebaseData[i].converted = firebaseData[i].birthdaysInFuture.map(n => n + Date.now());
         firebaseData[i].parsed = firebaseData[i].converted.map(n => moment(n).format("DD/MM/YYYY"));
+        //if "converted" property is empty (meaning the date is in the past, give it a huge value so that it goes
+        //to the end of the list with the "sortedObjects" parsing function)
         if (firebaseData[i].converted.length === 0){
            firebaseData[i].converted = 9999999999999999
         }
@@ -45,10 +47,8 @@ export default {
 
       let sortedObjects = firebaseData.sort((a, b) => (a.converted > b.converted) ? 1 : -1)
 
-
       console.log(firebaseData)
       console.log(birthDayAndBirthMonth);
-
 
       let allDatesInMiliseconds = (birthDayAndBirthMonth).map(s => {
         return (moment(s, "DD/MM/YYYY")._d.getTime()) - Date.now();
@@ -59,15 +59,13 @@ export default {
     },
 
     getDaysInTheFuture(allDatesInMiliseconds) {
-      //let datesAsMiliseconds = this.getDatesAsMiliseconds();
       //this checks if the value in milisseconds is positive(in the future), or negative(in the past), and filters just the positive values
-      let daysInTheFuture = allDatesInMiliseconds.filter(value => value > 0);
-      console.log(daysInTheFuture)
-      return daysInTheFuture;
+      let datesInFutureInMiliseconds = allDatesInMiliseconds.filter(value => value > 0);
+      console.log(datesInFutureInMiliseconds)
+      return datesInFutureInMiliseconds;
     },
 
     convertMilisecondsToDate(datesInFutureInMiliseconds) {
-      // let datesInFutureInMiliseconds = this.getDaysInTheFuture();
       const converted = datesInFutureInMiliseconds.map(n => n + Date.now());
       const sorted = converted.sort();
       const parsed = sorted.map(n => moment(n).format("DD/MM/YYYY"));
@@ -121,7 +119,7 @@ export default {
   margin: 0 auto;
 }
 .person-date-element {
-  font-size: 42px;
+  font-size: 18px;
 }
 .person {
   width: 230px;
