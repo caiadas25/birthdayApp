@@ -12,13 +12,8 @@ function obtainData() {
     ref.once("value", function(s) {
       s.forEach(function(childSnapshot) {
        var childData = childSnapshot.val();
-       //var name = childData.name;
-       //let birthDay = childData.birthDay;
-       //let birthMonth = childData.birthMonth;
-       //let parsed = birthDay + '/' + birthMonth + ': ' + name;
        childDataArray.push(childData);
       });
-      //console.log(childDataArray)
       resolve(childDataArray);
      });
   });
