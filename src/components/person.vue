@@ -1,6 +1,6 @@
 <template>
   <div class="person-container"
-      v-if="!(parsedDates.length === 0)">
+      v-if="this.people.length !== 0">
       <div class="person-date-element">
         {{this.people[0].birthDay}}/{{this.people[0].birthMonth}}
       </div>
@@ -38,10 +38,10 @@ export default {
 
     parseDates(converted){
       const parsed = converted.map(n => moment(n).format("DD/MM/YYYY"));
+      return parsed;
     },
 
     buildObject(firebaseData){
-      console.log(firebaseData)
       for (let i = 0; i < firebaseData.length; i++) {
         let birthDay = firebaseData[i].birthDay;
         let birthMonth = firebaseData[i].birthMonth;
@@ -58,6 +58,7 @@ export default {
         }
       }
       let sortedObjects = firebaseData.sort((a, b) => (a.converted > b.converted) ? 1 : -1)
+      console.log(firebaseData)
       return firebaseData;
     },
   },
@@ -83,7 +84,7 @@ export default {
     const datesAsMiliseconds = this.getDatesAsMiliseconds(firebaseData);
     const datesInFutureInMiliseconds = this.getDaysInTheFuture(datesAsMiliseconds);
     const parsedDates = this.convertMilisecondsToDate(datesInFutureInMiliseconds);
-    const object = this.buildObject(firebaseData)
+    this.people = this.buildObject(firebaseData);
   }
 }
 </script>
