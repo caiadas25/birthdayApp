@@ -18,15 +18,6 @@ import { errData, obtainData } from '../firebase/firebaseInit';
 export default {
   name: 'person',
   methods: {
-    dateString() {
-      return 'name';
-    },
-
-    buildObject(firebaseData){
-
-      return firebaseData
-    },
-
     getDatesAsMiliseconds(firebaseData){
       //console.log(sortedObjects)
       let birthDayAndBirthMonth = [];
@@ -42,8 +33,7 @@ export default {
 
         //subtract the current time to the list of dates to find the dates in the past, so that we can filter them out.
         firebaseData[i].birthdaysInMiliseconds = [formattedBirthDate].map(s => {
-          let datesAsMiliseconds = (moment(s, "DD/MM/YYYY")._d.getTime()) - Date.now();
-          return datesAsMiliseconds;
+          return (moment(s, "DD/MM/YYYY")._d.getTime()) - Date.now();
         });
         firebaseData[i].birthdaysInFuture = firebaseData[i].birthdaysInMiliseconds.filter(value => value > 0);
         firebaseData[i].converted = firebaseData[i].birthdaysInFuture.map(n => n + Date.now());
@@ -60,22 +50,18 @@ export default {
       console.log(birthDayAndBirthMonth);
 
 
-      let datesToProcess = (birthDayAndBirthMonth).map(s => {
-        let datesAsMiliseconds = (moment(s, "DD/MM/YYYY")._d.getTime()) - Date.now();
-        return datesAsMiliseconds;
+      let allDatesInMiliseconds = (birthDayAndBirthMonth).map(s => {
+        return (moment(s, "DD/MM/YYYY")._d.getTime()) - Date.now();
       });
+      console.log(allDatesInMiliseconds)
 
-
-      let datesAsMiliseconds = datesToProcess;
-      console.log(datesToProcess)
-
-      return datesAsMiliseconds;
+      return allDatesInMiliseconds;
     },
 
-    getDaysInTheFuture(datesAsMiliseconds) {
+    getDaysInTheFuture(allDatesInMiliseconds) {
       //let datesAsMiliseconds = this.getDatesAsMiliseconds();
       //this checks if the value in milisseconds is positive(in the future), or negative(in the past), and filters just the positive values
-      let daysInTheFuture = datesAsMiliseconds.filter(value => value > 0);
+      let daysInTheFuture = allDatesInMiliseconds.filter(value => value > 0);
       console.log(daysInTheFuture)
       return daysInTheFuture;
     },
@@ -87,6 +73,11 @@ export default {
       const parsed = sorted.map(n => moment(n).format("DD/MM/YYYY"));
       console.log(parsed)
       return parsed;
+    },
+
+    buildObject(firebaseData){
+      let completedObject = {};
+      return completedObject;
     },
   },
 
@@ -100,7 +91,7 @@ export default {
     obtainData()
       .then(firebaseData => this.people = firebaseData)
       .then(firebaseData => this.getDatesAsMiliseconds(firebaseData))
-      .then(datesAsMiliseconds => this.getDaysInTheFuture(datesAsMiliseconds))
+      .then(allDatesInMiliseconds => this.getDaysInTheFuture(allDatesInMiliseconds))
       .then(datesInFutureInMiliseconds => this.convertMilisecondsToDate(datesInFutureInMiliseconds))
       .then(parsedDates => this.parsedDates = parsedDates)
       .then(firebaseData => this.buildObject(firebaseData));
