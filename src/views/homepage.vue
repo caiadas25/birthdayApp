@@ -1,10 +1,10 @@
 <template>
 <div>
   <h1>Next birthday:</h1>
-  <person></person>
   <button>
     <router-link to="/">teste</router-link>
   </button>
+  <person></person>
 </div>
 </template>
 
@@ -26,6 +26,7 @@ export default {
 <style scoped>
 
 h1 {
-  color: white;
+  font-size: 2em;
+  margin: 20px;
 }
 </style>

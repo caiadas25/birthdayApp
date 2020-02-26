@@ -7,6 +7,13 @@
       <div class="person-date-element">
         {{this.people[0].name}}
       </div>
+      <div class="person-date-element">
+        <ul>
+            <li v-for="value in people">
+              {{ value.name + value.parsed}}
+            </li>
+        </ul>
+      </div>
   </div>
 </template>
 <script>
@@ -93,25 +100,17 @@ export default {
 
 .person-container {
   display: flex;
+  height: 300px;
+  width: 300px;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  color: white;
-  border: 1px solid white;
-  width: fit-content;
+  color: black;
+  border: 7px solid green;
+  border-radius: 20px;
   margin: 0 auto;
 }
 .person-date-element {
-  font-size: 18px;
-}
-.person {
-  width: 230px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  background-color: blue;
-  color: white;
+  font-size: 2em;
 }
 </style>
