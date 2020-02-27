@@ -5,12 +5,12 @@
     <router-link to="/">teste</router-link>
   </button>
   <person></person>
+  <router-link to="/addPerson">Add Person</router-link>
 </div>
 </template>
 
 <script>
 import person from '../components/person';
-
 export default {
   components: {
     'person': person,

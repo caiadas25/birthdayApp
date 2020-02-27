@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import homepage from '@/views/homepage'
-import addPerson from '@/views/addPerson'
+import addPerson from '@/components/addPerson'
 import viewPerson from '@/views/viewPerson'
 
 Vue.use(Router)

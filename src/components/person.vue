@@ -7,13 +7,13 @@
       <div class="person-date-element">
         {{this.people[0].name}}
       </div>
-      <div class="person-date-element">
+      <!--<div class="person-date-element">
         <ul>
             <li v-for="value in people">
               {{ value.name + value.parsed}}
             </li>
         </ul>
-      </div>
+      </div>-->
   </div>
 </template>
 <script>
