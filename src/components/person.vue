@@ -20,32 +20,23 @@
 import db from '../firebase/firebaseInit.js';
 import { database, ref } from '../firebase/firebaseInit';
 import { errData, obtainData } from '../firebase/firebaseInit';
+import {
+  getDatesAsMiliseconds,
+  getDaysInTheFuture,
+  convertMilisecondsToDate,
+  parseDates,
+  allDates,
+  getCurrentDayInDateFormat,
+  isPropertyEmpty
+  } from '../functions';
 
 
 export default {
   name: 'person',
   methods: {
-    getDatesAsMiliseconds(formattedBirthDate){
-      const allDatesInMiliseconds = [formattedBirthDate].map(s => {
-        return (moment(s, "DD/MM/YYYY")._d.getTime()) - Date.now();
-      });
-      return allDatesInMiliseconds;
-    },
 
-    getDaysInTheFuture(allDatesInMiliseconds) {
-      //this checks if the value in milisseconds is positive(in the future), or negative(in the past), and filters just the positive values
-      const datesInFutureInMiliseconds = allDatesInMiliseconds.filter(value => value > 0);
-      return datesInFutureInMiliseconds;
-    },
-
-    convertMilisecondsToDate(datesInFutureInMiliseconds) {
-      const converted = datesInFutureInMiliseconds.map(n => n + Date.now());
-      return converted;
-    },
-
-    parseDates(converted){
-      const parsed = converted.map(n => moment(n).format("DD/MM/YYYY"));
-      return parsed;
+    isCurrentDayInTheList(currentDay, list) {
+      return this.allDates(list).getTime() === currentDay.getTime();
     },
 
     buildObject(firebaseData){
@@ -54,18 +45,21 @@ export default {
         let birthMonth = firebaseData[i].birthMonth;
         let name = firebaseData[i].name;
         let formattedBirthDate = birthDay + '/' + birthMonth;
-        firebaseData[i].birthdaysInMiliseconds = this.getDatesAsMiliseconds(formattedBirthDate);
-        firebaseData[i].birthdaysInFuture = this.getDaysInTheFuture(firebaseData[i].birthdaysInMiliseconds);
-        firebaseData[i].converted = this.convertMilisecondsToDate(firebaseData[i].birthdaysInFuture);
-        firebaseData[i].parsed = this.parseDates(firebaseData[i].converted);
+        firebaseData[i].birthdaysInMiliseconds = getDatesAsMiliseconds(formattedBirthDate);
+        firebaseData[i].birthdaysInFuture = getDaysInTheFuture(firebaseData[i].birthdaysInMiliseconds);
+        firebaseData[i].converted = convertMilisecondsToDate(firebaseData[i].birthdaysInFuture);
+        firebaseData[i].parsed = parseDates(firebaseData[i].converted);
         //if "converted" property is empty (meaning the date is in the past, give it a huge value so that it goes
         //to the end of the list with the "sortedObjects" parsing function)
-        if (firebaseData[i].converted.length === 0){
+        if (isPropertyEmpty(firebaseData[i].converted) && !(allDates(firebaseData[i].birthdaysInMiliseconds).getTime() === getCurrentDayInDateFormat().getTime())){
            firebaseData[i].converted = 9999999999999999
         }
+        console.log((allDates(firebaseData[i].birthdaysInMiliseconds)).getTime() === getCurrentDayInDateFormat().getTime())
+
       }
       let sortedObjects = firebaseData.sort((a, b) => (a.converted > b.converted) ? 1 : -1)
       console.log(firebaseData)
+
       return firebaseData;
     },
   },
@@ -88,9 +82,9 @@ export default {
 
   async created() {
     const firebaseData = await obtainData();
-    const datesAsMiliseconds = this.getDatesAsMiliseconds(firebaseData);
-    const datesInFutureInMiliseconds = this.getDaysInTheFuture(datesAsMiliseconds);
-    const parsedDates = this.convertMilisecondsToDate(datesInFutureInMiliseconds);
+    const datesAsMiliseconds = getDatesAsMiliseconds(firebaseData);
+    const datesInFutureInMiliseconds = getDaysInTheFuture(datesAsMiliseconds);
+    const parsedDates = convertMilisecondsToDate(datesInFutureInMiliseconds);
     this.people = this.buildObject(firebaseData);
   }
 }

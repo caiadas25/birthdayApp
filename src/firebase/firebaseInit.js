@@ -22,6 +22,5 @@ function errData(err){
   console.log(err);
 }
 
-export {database, ref, obtainData, addPerson};
-export {errData};
+export {database, ref, obtainData, errData};
 export default firebaseApp.firestore();
