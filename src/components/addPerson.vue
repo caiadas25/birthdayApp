@@ -28,7 +28,7 @@
       </form>
     </div>
   </div>
-  
+
 </template>
 <script>
 import db from '../firebase/firebaseInit.js';
@@ -38,20 +38,20 @@ export default {
   name: 'addPerson',
   methods: {
     generateDays(numberOfDays){
-      return [...Array(numberOfDays + 1 ).keys()]
+      return [...Array(numberOfDays + 1 ).keys()].slice(1)
     },
     generateMonths(numberOfMonths){
-      return  ([...Array(numberOfMonths).keys()]).map(function(num) {
+      let names = ([...Array(numberOfMonths).keys()]).map(function(num) {
           return moment().month(num).format("MMMM")
       })
+      return names
     },
-    parseToNumbers(monthNames){
-      return monthNames.map(function(num) {
-          return moment().month(num).format("M");
-      })
-    },
-    generateObject(numbers, names){
-      let arrayOfObjs = [];
+
+    generateObject(names, numbers){
+      var result = {};
+      numbers.forEach((key, i) => result[key] = names[i]);
+      console.log(result);
+      return result
       // gerar array de objetos cujas keys são os nomes e os valores os números; mandar para o firebase as valores e exibir as keys
 
     },
@@ -68,6 +68,7 @@ export default {
     return {
       birthDays: this.generateDays(31),
       birthMonths: this.generateDays(12),
+      test: this.generateObject(this.generateMonths(12), this.generateDays(12)),
       newPerson: {
           name: '',
           birthDay: '',
@@ -76,6 +77,7 @@ export default {
     }
   },
   created() {
+    this.generateObject(this.generateMonths(12), this.generateDays(12))
   }
 }
 
