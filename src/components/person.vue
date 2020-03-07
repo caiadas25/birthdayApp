@@ -54,7 +54,6 @@ export default {
         if (isPropertyEmpty(firebaseData[i].converted) && !(allDates(firebaseData[i].birthdaysInMiliseconds).getTime() === getCurrentDayInDateFormat().getTime())){
            firebaseData[i].converted = 9999999999999999
         }
-        console.log((allDates(firebaseData[i].birthdaysInMiliseconds)).getTime() === getCurrentDayInDateFormat().getTime())
       }
       let sortedObjects = firebaseData.sort((a, b) => (a.converted > b.converted) ? 1 : -1)
       console.log(firebaseData)

@@ -3,13 +3,23 @@
     <h3>Nova pessoa</h3>
     <div class="form-wrapper">
       <form @submit.prevent="addPerson" class="form">
+
         <label>Nome</label>
         <input type="text" v-model="newPerson.name">
 
-        <label>BirthDay: </label>
-        <input type="text" v-model="newPerson.birthDay" required>
-        <label>BirthMonth: </label>
-        <input type="text" v-model="newPerson.birthMonth" required>
+        <label>Dia: </label>
+        <select v-model="newPerson.birthDay">
+          <option v-for="birthDay in birthDays" :key="birthDay">
+            {{ birthDay }}
+          </option>
+        </select>
+
+        <label>Mês: </label>
+        <select v-model="newPerson.birthMonth">
+          <option v-for="birthMonth in birthMonths" :key="birthMonth">
+            {{ birthMonth }}
+          </option>
+        </select>
 
         <div class="action-buttons">
           <button type="submit" class="submit-btn">Submeter</button>
@@ -26,6 +36,24 @@ export default {
 
   name: 'addPerson',
   methods: {
+    generateDays(numberOfDays){
+      return [...Array(numberOfDays + 1 ).keys()]
+    },
+    generateMonths(numberOfMonths){
+      return  ([...Array(numberOfMonths).keys()]).map(function(num) {
+          return moment().month(num).format("MMMM")
+      })
+    },
+    parseToNumbers(monthNames){
+      return monthNames.map(function(num) {
+          return moment().month(num).format("M");
+      })
+    },
+    generateObject(numbers, names){
+      let arrayOfObjs = [];
+      // gerar array de objetos cujas keys são os nomes e os valores os números; mandar para o firebase as valores e exibir as keys
+
+    },
     addPerson () {
       db.collection('people').add({
         name: this.newPerson.name,
@@ -35,8 +63,10 @@ export default {
       .then(this.$router.push('/'))
     },
   },
-data () {
+  data () {
     return {
+      birthDays: this.generateDays(31),
+      birthMonths: this.generateDays(12),
       newPerson: {
           name: '',
           birthDay: '',
@@ -44,7 +74,8 @@ data () {
       }
     }
   },
-
+  created() {
+  }
 }
 
 
