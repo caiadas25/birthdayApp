@@ -28,6 +28,7 @@
       </form>
     </div>
   </div>
+  
 </template>
 <script>
 import db from '../firebase/firebaseInit.js';
