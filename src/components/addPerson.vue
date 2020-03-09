@@ -38,22 +38,12 @@ export default {
   name: 'addPerson',
   methods: {
     generateDays(numberOfDays){
-      return [...Array(numberOfDays + 1 ).keys()].slice(1)
+      return [...Array(numberOfDays + 1 ).keys()]
     },
     generateMonths(numberOfMonths){
-      let names = ([...Array(numberOfMonths).keys()]).map(function(num) {
+      return  ([...Array(numberOfMonths).keys()]).map(function(num) {
           return moment().month(num).format("MMMM")
       })
-      return names
-    },
-
-    generateObject(names, numbers){
-      var result = {};
-      numbers.forEach((key, i) => result[key] = names[i]);
-      console.log(result);
-      return result
-      // gerar array de objetos cujas keys são os nomes e os valores os números; mandar para o firebase as valores e exibir as keys
-
     },
     addPerson () {
       db.collection('people').add({
@@ -67,8 +57,7 @@ export default {
   data () {
     return {
       birthDays: this.generateDays(31),
-      birthMonths: this.generateDays(12),
-      test: this.generateObject(this.generateMonths(12), this.generateDays(12)),
+      birthMonths: this.generateMonths(12),
       newPerson: {
           name: '',
           birthDay: '',
@@ -77,7 +66,6 @@ export default {
     }
   },
   created() {
-    this.generateObject(this.generateMonths(12), this.generateDays(12))
   }
 }
 

@@ -2,7 +2,7 @@
   <div class="person-container"
       v-if="this.people.length !== 0">
       <div class="person-date-element">
-        {{this.people[0].birthDay}}/{{this.people[0].birthMonth}}
+        {{this.people[0].birthDay}} of {{this.people[0].birthMonth}}
       </div>
       <div class="person-date-element">
         {{this.people[0].name}}
@@ -42,7 +42,7 @@ export default {
     buildObject(firebaseData){
       for (let i = 0; i < firebaseData.length; i++) {
         let birthDay = firebaseData[i].birthDay;
-        let birthMonth = firebaseData[i].birthMonth;
+        let birthMonth = moment().month(firebaseData[i].birthMonth).format("M");
         let name = firebaseData[i].name;
         let formattedBirthDate = birthDay + '/' + birthMonth;
         firebaseData[i].birthdaysInMiliseconds = getDatesAsMiliseconds(formattedBirthDate);
