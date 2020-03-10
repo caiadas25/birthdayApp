@@ -7,12 +7,19 @@
       <div class="person-date-element">
         {{this.people[0].name}}
       </div>
+      <div>{{title}}</div>
+      <ul>
+        <li v-for="(link, index) in links" :key="index">
+          {{link}}
+        </li>
+      </ul>
   </div>
 </template>
 <script>
 import db from '../firebase/firebaseInit.js';
 import { database, ref } from '../firebase/firebaseInit';
 import { errData, obtainData } from '../firebase/firebaseInit';
+import { mapState } from 'vuex'
 import {
   getDatesAsMiliseconds,
   getDaysInTheFuture,
@@ -27,6 +34,15 @@ import {
 
 export default {
   name: 'person',
+
+  computed: {
+    ...mapState([
+      'title',
+      'links'
+    ])
+  },
+
+
   methods: {
 
   },
