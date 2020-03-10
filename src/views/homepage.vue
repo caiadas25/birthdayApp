@@ -1,9 +1,11 @@
 <template>
 <div>
   <h1>Next birthday:</h1>
-  <button>
-    <router-link to="/">teste</router-link>
-  </button>
+  <ul>
+    <li v-for="person in people">
+      {{ person.name }}
+    </li>
+  </ul>
   <person></person>
   <router-link to="/addPerson">Add Person</router-link>
 </div>
@@ -11,14 +13,23 @@
 
 <script>
 import person from '../components/person';
+import { buildObject } from '../fetchDataService';
+import { errData, obtainData } from '../firebase/firebaseInit';
+
 export default {
   components: {
     'person': person,
   },
   name: 'homepage',
+
   data () {
     return {
+      people: [],
     }
+  },
+  async created() {
+    const firebaseData = await obtainData();
+    this.people = buildObject(firebaseData);
   }
 }
 </script>

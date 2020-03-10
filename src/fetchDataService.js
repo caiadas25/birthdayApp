@@ -1,5 +1,3 @@
-import db from './firebase/firebaseInit';
-
 function getDatesAsMiliseconds(formattedBirthDate){
   const allDatesInMiliseconds = [formattedBirthDate].map(s => {
     return (moment(s, "DD/MM/YYYY")._d.getTime()) - Date.now();
@@ -37,6 +35,28 @@ function isPropertyEmpty(property) {
   return property.length === 0
 }
 
+function buildObject(firebaseData){
+  for (let i = 0; i < firebaseData.length; i++) {
+    let birthDay = firebaseData[i].birthDay;
+    let birthMonth = moment().month(firebaseData[i].birthMonth).format("M");
+    let name = firebaseData[i].name;
+    let formattedBirthDate = birthDay + '/' + birthMonth;
+    firebaseData[i].birthdaysInMiliseconds = getDatesAsMiliseconds(formattedBirthDate);
+    firebaseData[i].birthdaysInFuture = getDaysInTheFuture(firebaseData[i].birthdaysInMiliseconds);
+    firebaseData[i].converted = convertMilisecondsToDate(firebaseData[i].birthdaysInFuture);
+    firebaseData[i].parsed = parseDates(firebaseData[i].converted);
+    //if "converted" property is empty (meaning the date is in the past, give it a huge value so that it goes
+    //to the end of the list with the "sortedObjects" parsing function)
+    if (isPropertyEmpty(firebaseData[i].converted) && !(allDates(firebaseData[i].birthdaysInMiliseconds).getTime() === getCurrentDayInDateFormat().getTime())){
+       firebaseData[i].converted = 9999999999999999
+    }
+  }
+  let sortedObjects = firebaseData.sort((a, b) => (a.converted > b.converted) ? 1 : -1)
+  console.log(firebaseData)
+
+  return firebaseData;
+}
+
 export {
   getDatesAsMiliseconds,
   getDaysInTheFuture,
@@ -44,5 +64,6 @@ export {
   parseDates,
   allDates,
   getCurrentDayInDateFormat,
-  isPropertyEmpty
+  isPropertyEmpty,
+  buildObject
 };

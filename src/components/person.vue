@@ -7,13 +7,6 @@
       <div class="person-date-element">
         {{this.people[0].name}}
       </div>
-      <!--<div class="person-date-element">
-        <ul>
-            <li v-for="value in people">
-              {{ value.name + value.parsed}}
-            </li>
-        </ul>
-      </div>-->
   </div>
 </template>
 <script>
@@ -27,44 +20,18 @@ import {
   parseDates,
   allDates,
   getCurrentDayInDateFormat,
-  isPropertyEmpty
-  } from '../functions';
+  isPropertyEmpty,
+  buildObject
+  } from '../fetchDataService';
 
 
 export default {
   name: 'person',
   methods: {
 
-    isCurrentDayInTheList(currentDay, list) {
-      return this.allDates(list).getTime() === currentDay.getTime();
-    },
-
-    buildObject(firebaseData){
-      for (let i = 0; i < firebaseData.length; i++) {
-        let birthDay = firebaseData[i].birthDay;
-        let birthMonth = moment().month(firebaseData[i].birthMonth).format("M");
-        let name = firebaseData[i].name;
-        let formattedBirthDate = birthDay + '/' + birthMonth;
-        firebaseData[i].birthdaysInMiliseconds = getDatesAsMiliseconds(formattedBirthDate);
-        firebaseData[i].birthdaysInFuture = getDaysInTheFuture(firebaseData[i].birthdaysInMiliseconds);
-        firebaseData[i].converted = convertMilisecondsToDate(firebaseData[i].birthdaysInFuture);
-        firebaseData[i].parsed = parseDates(firebaseData[i].converted);
-        //if "converted" property is empty (meaning the date is in the past, give it a huge value so that it goes
-        //to the end of the list with the "sortedObjects" parsing function)
-        if (isPropertyEmpty(firebaseData[i].converted) && !(allDates(firebaseData[i].birthdaysInMiliseconds).getTime() === getCurrentDayInDateFormat().getTime())){
-           firebaseData[i].converted = 9999999999999999
-        }
-      }
-      let sortedObjects = firebaseData.sort((a, b) => (a.converted > b.converted) ? 1 : -1)
-      console.log(firebaseData)
-
-      return firebaseData;
-    },
   },
-
   data () {
     return {
-      parsedDates: [],
       people: [],
     }
   },
@@ -83,7 +50,7 @@ export default {
     const datesAsMiliseconds = getDatesAsMiliseconds(firebaseData);
     const datesInFutureInMiliseconds = getDaysInTheFuture(datesAsMiliseconds);
     const parsedDates = convertMilisecondsToDate(datesInFutureInMiliseconds);
-    this.people = this.buildObject(firebaseData);
+    this.people = buildObject(firebaseData);
   }
 }
 </script>
