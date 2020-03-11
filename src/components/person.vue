@@ -8,6 +8,8 @@
         {{this.people[0].name}}
       </div>
       <div>{{title}}</div>
+      <p>{{countLinks}}</p>
+      {{getData}}
       <ul>
         <li v-for="(link, index) in links" :key="index">
           {{link}}
@@ -19,7 +21,7 @@
 import db from '../firebase/firebaseInit.js';
 import { database, ref } from '../firebase/firebaseInit';
 import { errData, obtainData } from '../firebase/firebaseInit';
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import {
   getDatesAsMiliseconds,
   getDaysInTheFuture,
@@ -36,6 +38,10 @@ export default {
   name: 'person',
 
   computed: {
+    ...mapGetters([
+      'countLinks',
+      'getData'
+    ]),
     ...mapState([
       'title',
       'links'
