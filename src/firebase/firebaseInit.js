@@ -2,8 +2,8 @@ import firebase from 'firebase';
 import firebaseConfig from './firebaseConfig';
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
-var database = firebase.database();
-var ref = firebase.database().ref("people");
+const database = firebase.database();
+const ref = firebase.database().ref("people");
 const db = firebase.firestore();
 
 function obtainData() {

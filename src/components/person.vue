@@ -2,26 +2,26 @@
   <div class="person-container"
       v-if="this.people.length !== 0">
       <div class="person-date-element">
-        {{this.people[0].birthDay}} of {{this.people[0].birthMonth}}
+        {{friends[0].birthDay}} of {{friends[0].birthMonth}}
       </div>
       <div class="person-date-element">
         {{this.people[0].name}}
       </div>
       <div>{{title}}</div>
       <p>{{countLinks}}</p>
-      {{getData}}
-      <ul>
-        <li v-for="(link, index) in links" :key="index">
-          {{link}}
+      <!--<ul>
+        <li v-for="(friend, index) in friends" :key="index">
+          {{friend}}
         </li>
-      </ul>
+      </ul>-->
+      <div>{{friends[0]}}</div>
   </div>
 </template>
 <script>
 import db from '../firebase/firebaseInit.js';
 import { database, ref } from '../firebase/firebaseInit';
 import { errData, obtainData } from '../firebase/firebaseInit';
-import { mapState, mapGetters } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import {
   getDatesAsMiliseconds,
   getDaysInTheFuture,
@@ -44,7 +44,11 @@ export default {
     ]),
     ...mapState([
       'title',
-      'links'
+      'links',
+      'friends'
+    ]),
+    ...mapActions([
+      'loadPosts'
     ])
   },
 
@@ -67,12 +71,12 @@ export default {
   //    .then(firebaseData => this.buildObject(firebaseData));
   //},
 
-  async created() {
+  async mounted() {
     const firebaseData = await obtainData();
-    const datesAsMiliseconds = getDatesAsMiliseconds(firebaseData);
-    const datesInFutureInMiliseconds = getDaysInTheFuture(datesAsMiliseconds);
-    const parsedDates = convertMilisecondsToDate(datesInFutureInMiliseconds);
     this.people = buildObject(firebaseData);
+  },
+  created(){
+    this.$store.dispatch('obtainData')
   }
 }
 </script>
