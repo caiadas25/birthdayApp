@@ -7,7 +7,6 @@
       <div class="person-date-element">
         {{friends[0].name}}
       </div>
-      <div>{{friends[0]}}</div>
   </div>
 </template>
 <script>

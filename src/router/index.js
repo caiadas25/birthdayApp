@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import homepage from '@/views/homepage'
 import addPerson from '@/components/addPerson'
 import viewPerson from '@/views/viewPerson'
+import catalog from '@/views/catalog'
+
 
 Vue.use(Router)
 
@@ -19,9 +21,14 @@ export default new Router({
       component: addPerson
     },
     {
+      path: '/:catalog',
+      name: 'catalog',
+      component: catalog,
+    },
+    {
       path: '/:name',
       name: 'viewPerson',
       component: viewPerson,
-    },
+    }
   ]
 })
