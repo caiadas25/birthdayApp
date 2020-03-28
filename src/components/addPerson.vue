@@ -31,8 +31,10 @@
 
 </template>
 <script>
+
 import db from '../firebase/firebaseInit.js';
 import { database, ref } from '../firebase/firebaseInit';
+
 export default {
   name: 'addPerson',
   methods: {

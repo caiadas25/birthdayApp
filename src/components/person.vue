@@ -1,19 +1,12 @@
 <template>
   <div class="person-container"
-      v-if="this.people.length !== 0">
+      v-if="this.friends.length !== 0">
       <div class="person-date-element">
         {{friends[0].birthDay}} of {{friends[0].birthMonth}}
       </div>
       <div class="person-date-element">
-        {{this.people[0].name}}
+        {{friends[0].name}}
       </div>
-      <div>{{title}}</div>
-      <p>{{countLinks}}</p>
-      <!--<ul>
-        <li v-for="(friend, index) in friends" :key="index">
-          {{friend}}
-        </li>
-      </ul>-->
       <div>{{friends[0]}}</div>
   </div>
 </template>
@@ -23,13 +16,6 @@ import { database, ref } from '../firebase/firebaseInit';
 import { errData, obtainData } from '../firebase/firebaseInit';
 import { mapState, mapGetters, mapActions } from 'vuex'
 import {
-  getDatesAsMiliseconds,
-  getDaysInTheFuture,
-  convertMilisecondsToDate,
-  parseDates,
-  allDates,
-  getCurrentDayInDateFormat,
-  isPropertyEmpty,
   buildObject
   } from '../fetchDataService';
 
@@ -39,28 +25,19 @@ export default {
 
   computed: {
     ...mapGetters([
-      'countLinks',
       'getData'
     ]),
     ...mapState([
-      'title',
-      'links',
       'friends'
     ]),
     ...mapActions([
-      'loadPosts'
     ])
   },
-
 
   methods: {
 
   },
-  data () {
-    return {
-      people: [],
-    }
-  },
+
   //created() {
   //  obtainData()
   //   .then(firebaseData => this.people = firebaseData)
@@ -71,10 +48,7 @@ export default {
   //    .then(firebaseData => this.buildObject(firebaseData));
   //},
 
-  async mounted() {
-    const firebaseData = await obtainData();
-    this.people = buildObject(firebaseData);
-  },
+
   created(){
     this.$store.dispatch('obtainData')
   }

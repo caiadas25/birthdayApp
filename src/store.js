@@ -47,7 +47,6 @@ export default new Vuex.Store({
   },
 
   mutations: {
-
     async setData(state, data){
       data = await obtainData();
       state.friends = buildObject(data);

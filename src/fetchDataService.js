@@ -58,12 +58,5 @@ function buildObject(firebaseData){
 }
 
 export {
-  getDatesAsMiliseconds,
-  getDaysInTheFuture,
-  convertMilisecondsToDate,
-  parseDates,
-  allDates,
-  getCurrentDayInDateFormat,
-  isPropertyEmpty,
   buildObject
 };

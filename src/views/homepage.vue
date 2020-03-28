@@ -2,8 +2,8 @@
 <div>
   <h1>Next birthday:</h1>
   <ul>
-    <li v-for="person in people">
-      {{ person.name }}
+    <li v-for="friend in friends">
+      {{ friend.name }}
     </li>
   </ul>
   <person></person>
@@ -13,8 +13,7 @@
 
 <script>
 import person from '../components/person';
-import { buildObject } from '../fetchDataService';
-import { errData, obtainData } from '../firebase/firebaseInit';
+import { mapState } from 'vuex'
 
 export default {
   components: {
@@ -22,15 +21,11 @@ export default {
   },
   name: 'homepage',
 
-  data () {
-    return {
-      people: [],
-    }
-  },
-  async created() {
-    const firebaseData = await obtainData();
-    this.people = buildObject(firebaseData);
-  }
+  computed: {
+  ...mapState([
+    'friends'
+  ]),
+},
 }
 </script>
 
