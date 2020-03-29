@@ -11,13 +11,7 @@
 </template>
 <script>
 import db from '../firebase/firebaseInit.js';
-import { database, ref } from '../firebase/firebaseInit';
-import { errData, obtainData } from '../firebase/firebaseInit';
 import { mapState, mapGetters, mapActions } from 'vuex'
-import {
-  buildObject
-  } from '../fetchDataService';
-
 
 export default {
   name: 'person',

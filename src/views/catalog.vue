@@ -1,10 +1,11 @@
 <template>
 <div>
   <ul>
-    <li v-for="friend in friends">
+    <li v-for="friend in friends" class="border">
       {{ friend.name }}
     </li>
   </ul>
+  <router-link to="/" >Back</router-link>
 </div>
 </template>
 
@@ -31,5 +32,10 @@ export default {
 </script>
 
 <style scoped>
-
+.border{
+  border: 2px solid green;
+  width: max-content;
+  padding: 5px;
+  margin: 10px auto;
+}
 </style>

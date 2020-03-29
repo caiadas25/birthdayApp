@@ -1,5 +1,5 @@
 <template>
-  <div id="new-restaurant">
+  <div>
     <h3>Nova pessoa</h3>
     <div class="form-wrapper">
       <form @submit.prevent="addPerson" class="form">
@@ -33,7 +33,6 @@
 <script>
 
 import db from '../firebase/firebaseInit.js';
-import { database, ref } from '../firebase/firebaseInit';
 
 export default {
   name: 'addPerson',
