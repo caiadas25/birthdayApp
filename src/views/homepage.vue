@@ -2,18 +2,18 @@
 <div>
   <h1>Next birthday:</h1>
   <person></person>
-  <router-link to="/addPerson">Add Person</router-link>
-  <router-link to="/catalog">Catalog</router-link>
 </div>
 </template>
 
 <script>
 import person from '../components/person';
+import navbar from '../components/navbar';
 import { mapState } from 'vuex'
 
 export default {
   components: {
     'person': person,
+    'navbar': navbar,
   },
   name: 'homepage',
 
