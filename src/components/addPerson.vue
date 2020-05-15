@@ -97,9 +97,9 @@ h3 {
   margin: 10px;
 }
 select, input {
-  width: 70%;
-  height: 30px;
   font-size: 16px;
+  height: 30px;
+  width: 70%;
 }
 button {
   height: 36px;
