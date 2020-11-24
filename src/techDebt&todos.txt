@@ -1,0 +1,4 @@
+Resolve bug of 2 birthdays on the same day only showing one of them.
+Add validation to make all fields in the form mandatory.
+Add telegram notification on name of birthday.
+Add way to make account and add your own friends birthdays.

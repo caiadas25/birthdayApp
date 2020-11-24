@@ -48,7 +48,7 @@ function buildObject(firebaseData){
     //if "converted" property is empty (meaning the date is in the past, give it a huge value so that it goes
     //to the end of the list with the "sortedObjects" parsing function)
     if (isPropertyEmpty(firebaseData[i].converted) && !(allDates(firebaseData[i].birthdaysInMiliseconds).getTime() === getCurrentDayInDateFormat().getTime())){
-       firebaseData[i].converted = 9999999999999999
+       firebaseData[i].converted = 9999999999999999;
     }
   }
   let sortedObjects = firebaseData.sort((a, b) => (a.converted > b.converted) ? 1 : -1)

@@ -2,10 +2,10 @@
   <div class="person-container"
       v-if="this.friends.length !== 0">
       <div class="person-date-element">
-        {{friends[0].birthDay}} of {{friends[0].birthMonth}}
+        {{birthDay}} of {{birthMonth}}
       </div>
       <div class="person-date-element">
-        {{friends[0].name}}
+        {{name}}
       </div>
   </div>
 </template>
@@ -15,7 +15,6 @@ import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'person',
-
   computed: {
     ...mapGetters([
       'getData'
@@ -26,21 +25,11 @@ export default {
     ...mapActions([
     ])
   },
+  props: ['name', 'birthDay', 'birthMonth'],
 
   methods: {
 
   },
-
-  //created() {
-  //  obtainData()
-  //   .then(firebaseData => this.people = firebaseData)
-  //    .then(firebaseData => this.getDatesAsMiliseconds(firebaseData))
-  //    .then(allDatesInMiliseconds => this.getDaysInTheFuture(allDatesInMiliseconds))
-  //    .then(datesInFutureInMiliseconds => this.convertMilisecondsToDate(datesInFutureInMiliseconds))
-  //    .then(parsedDates => this.parsedDates = parsedDates)
-  //    .then(firebaseData => this.buildObject(firebaseData));
-  //},
-
 
   created(){
     this.$store.dispatch('obtainData')
