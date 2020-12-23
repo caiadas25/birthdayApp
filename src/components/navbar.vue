@@ -47,17 +47,17 @@ export default {
   height: 100px;
   justify-content: center;
   align-items: center;
-  border: 1px solid red;
-  background: rgb(205, 255, 205);
 }
 .navbar-item :hover {
-  background: rgb(156, 255, 156);
 }
 .fill-div {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
   width: 100%;
 }
 </style>

@@ -7,12 +7,16 @@
 
 <script>
 import navbar from './components/navbar';
+import { mapState } from 'vuex'
 
 export default {
   name: 'App',
   components: {
   'navbar': navbar,
 },
+  created(){
+    this.$store.dispatch('obtainData')
+  },
 }
 </script>
 

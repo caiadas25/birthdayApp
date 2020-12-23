@@ -1,18 +1,19 @@
 <template>
 <div>
-  <h1>Next birthday:</h1>
+  <h1>{{getHeadline()}}</h1>
   <!--Create a v-for for the "person" component to display more than one when applicable-->
-  <person :birthMonth="this.getBirthMonthOfFirstFriend()"
+  <person v-if="this.firstFriendHasEmptyParsedDate()"
+          :birthMonth="this.getBirthMonthOfFirstFriend()"
           :birthDay="this.getBirthDayOfFirstFriend()"
-          :name="this.getNameOfFirstFriend()"></person>
-
+          :name="this.getNameOfFirstFriend()"
+          :photo="this.getPhotoOfFirstFriend()"></person>
 </div>
 </template>
 
 <script>
 import person from '../components/person';
 import navbar from '../components/navbar';
-import { mapState } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
@@ -35,19 +36,35 @@ export default {
   name: 'homepage',
 
   computed: {
-  ...mapState([
-    'friends'
+    ...mapGetters([
+      'getData'
     ]),
+    ...mapState([
+      'friends'
+    ]),
+    ...mapActions([
+    ])
 
   },
-  methods: {
 
-    showNamesOfSameBirthdays() {
-      let friendsConvertedValues = this.getConvertedValues();
+  methods: {
+    getHeadline() {
+      return this.firstFriendHasEmptyParsedDate() ? 'Next birthday:' : 'No more birthdays this year :(';
+    },
+
+    //meaning that there are no more birthdays this year.
+    firstFriendHasEmptyParsedDate(){
       let friends = this.friends;
-      let filteredFriends = friends.filter(item => (friends.converted == '1609286400000'));
-      //not working
-      return filteredFriends;
+      return friends[0].parsed.length ? true : false;
+    },
+
+    getPhotoOfFirstFriend() {
+      let friends = this.friends;
+      for (let i = 0; i < friends.length; i++) {
+        if (friends[i].photo) {
+            return friends[i].photo;
+        }
+      }
     },
     getBirthMonthOfFirstFriend() {
       let friends = this.friends;
@@ -72,32 +89,8 @@ export default {
             return friends[i].birthDay;
         }
       }
-    },
-    getConvertedValues() {
-      const result = this.friends.map(a => a.converted);
-      let filtered = result.filter(function (el) {
-        return el != 10000000000000000;
-      });
-      let flatArray = filtered.flat();
-      return flatArray;
-    },
-    checkIfFirstValueEqualsTheSecondValue() {
-      let array = this.getConvertedValues();
-      for(var i = 0; i < array.length - 1; i++) {
-          if(array[i] === array[i+1]) {
-            console.log(i);
-            return true;
-          }
-      }
-      return false;
-    },
-    getNumberOfIdenticalConvertedValues() {
-      let convertedValues = this.getConvertedValues();
-      var map = new Map();
-      convertedValues.forEach(a => map.set(a, (map.get(a) || 0) + 1));
-      return convertedValues.filter(a => map.get(a) > 1).length;
-      }
-    },
+    }
+  },
 }
 </script>
 

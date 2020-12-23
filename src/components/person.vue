@@ -1,39 +1,32 @@
 <template>
-  <div class="person-container"
-      v-if="this.friends.length !== 0">
-      <div class="person-date-element">
-        {{birthDay}} of {{birthMonth}}
-      </div>
-      <div class="person-date-element">
-        {{name}}
-      </div>
+  <div class="person-container-master">
+    <div class="person-container">
+        <div class="person-details-container">
+          <div class="person-name-element">
+            {{name}}
+          </div>
+          <div class="person-date-element">
+            {{birthDay}} of {{birthMonth}}
+          </div>
+        </div>
+        <img class="person-photo-element" :src=photo alt="photo">
+    </div>
   </div>
+
+
 </template>
 <script>
 import db from '../firebase/firebaseInit.js';
-import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'person',
   computed: {
-    ...mapGetters([
-      'getData'
-    ]),
-    ...mapState([
-      'friends'
-    ]),
-    ...mapActions([
-    ])
+
   },
-  props: ['name', 'birthDay', 'birthMonth'],
+  props: ['name', 'birthDay', 'birthMonth', 'photo'],
 
   methods: {
-
   },
-
-  created(){
-    this.$store.dispatch('obtainData')
-  }
 }
 </script>
 
@@ -41,17 +34,30 @@ export default {
 
 .person-container {
   display: flex;
-  height: 300px;
-  width: 300px;
+  height: 400px;
+  width: 100%;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   color: black;
-  border: 7px solid green;
-  border-radius: 20px;
   margin: 0 auto;
+  text-align: left;
+}
+.person-details-container {
+  flex-direction: column;
+  padding-right: 25px;
 }
 .person-date-element {
   font-size: 2em;
+}
+.person-name-element {
+  font-size: 3em;
+  font-weight: 500;
+  text-align: left;
+}
+.person-photo-element {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
 }
 </style>

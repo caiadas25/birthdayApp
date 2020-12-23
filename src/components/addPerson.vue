@@ -7,7 +7,10 @@
           <label class="form-label">Nome: </label>
           <input type="text" v-model="newPerson.name">
         </div>
-
+        <div class="form-item">
+          <label class="form-label">URL: </label>
+          <input type="text" v-model="newPerson.photo">
+        </div>
         <div class="form-item">
           <label class="form-label">Dia: </label>
           <select v-model="newPerson.birthDay">
@@ -53,6 +56,7 @@ export default {
         name: this.newPerson.name,
         birthDay: this.newPerson.birthDay,
         birthMonth: this.newPerson.birthMonth,
+        photo: this.newPerson.photo,
       })
       .then(this.$router.push('/'))
     },
@@ -64,7 +68,8 @@ export default {
       newPerson: {
           name: '',
           birthDay: '',
-          birthMonth: ''
+          birthMonth: '',
+          photo: '',
       }
     }
   },
