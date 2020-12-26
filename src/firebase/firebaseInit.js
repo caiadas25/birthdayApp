@@ -3,7 +3,7 @@ import firebaseConfig from './firebaseConfig';
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
-const ref = firebase.database().ref("people");
+const friendsRef = database.ref("people");
 const db = firebase.firestore();
 
 function obtainData() {
@@ -22,5 +22,5 @@ function errData(err){
   console.log(err);
 }
 
-export {database, ref, obtainData, errData};
+export {database, friendsRef, obtainData, errData};
 export default firebaseApp.firestore();
