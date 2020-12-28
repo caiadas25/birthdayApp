@@ -1,19 +1,15 @@
 <template>
-  <div class="person-container-master">
-    <div class="person-container">
-        <div class="person-details-container">
-          <div class="person-name-element">
-            {{name}}
-          </div>
-          <div class="person-date-element">
-            {{birthDay}} of {{birthMonth}}
-          </div>
+  <div class="person-container">
+      <div class="person-details-container">
+        <div class="person-name-element">
+          {{name}}
         </div>
-        <img class="person-photo-element" :src=photo alt="photo">
-    </div>
+        <div class="person-date-element">
+          {{birthDay}} of {{birthMonth}}
+        </div>
+      </div>
+      <img class="person-photo-element" :src=photo alt="photo">
   </div>
-
-
 </template>
 <script>
 import db from '../firebase/firebaseInit.js';

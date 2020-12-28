@@ -6,8 +6,9 @@ Add way to make account and add your own friends birthdays.
 Make the project online and include it in nunocaiadas.com
 Improve catalog view
 add go back to top button to catalog view
-add way to edit friend's information
-add way to delete friends
+**DONE** add way to edit friend's information
+**DONE** add way to delete friends
+improve edit mode styling
 
 add authentication
 

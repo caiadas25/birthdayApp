@@ -39,6 +39,7 @@
 <script>
 
 import db from '../firebase/firebaseInit.js';
+import { mapState } from 'vuex'
 
 export default {
   name: 'addPerson',
@@ -51,13 +52,15 @@ export default {
           return moment().month(num).format("MMMM")
       })
     },
-    addPerson () {
-      db.collection('people').add({
+    async addPerson () {
+      const friendProperties = {
         name: this.newPerson.name,
         birthDay: this.newPerson.birthDay,
         birthMonth: this.newPerson.birthMonth,
         photo: this.newPerson.photo,
-      })
+      }
+      await db.collection("people").add(friendProperties)
+      .then(this.$store.dispatch('obtainData'))
       .then(this.$router.push('/'))
     },
   },
