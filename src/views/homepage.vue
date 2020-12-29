@@ -29,7 +29,8 @@ export default {
       count: 2,
     }
   },
-
+  created(){
+  },
   props: {
   },
 
@@ -53,9 +54,12 @@ export default {
     },
 
     //meaning that there are no more birthdays this year.
-    firstFriendHasEmptyParsedDate(){
-      let friends = this.friends;
-      return friends[0].parsed.length ? true : false;
+    async firstFriendHasEmptyParsedDate(){
+      //await this.$store.dispatch('obtainData');
+      //above line causes infinite loop
+      let dateInMilisecondsOfNextFriend = this.friends[0].birthdaysInMiliseconds;
+      //86400000 is the number of ms in a day. Thus, if the value is larger than -86400000, it means the current day is a birthday day.
+      return (dateInMilisecondsOfNextFriend >= -86400000) ? true : false;
     },
 
     getPhotoOfFirstFriend() {
