@@ -1,32 +1,32 @@
 <template>
 <div>
   <ul class="catalog-container">
-    <li v-for="friend in friends" v-bind:key="friend['.key']" class="border">
+    <li v-for="friend in friends" v-bind:key="friend['.key']" class="person-container-catalog">
         <div v-if="friendIdentifier === friend.name">
-        <form @submit.prevent="addPerson" class="form">
+        <form class="edit-form">
           <div class="form-item">
-            <label class="form-label">Nome: </label>
-            <input type="text" v-model="editedFriend.name">
+            <input type="text" class="form-item-name" v-model="editedFriend.name">
           </div>
-          <div class="form-item">
-            <label class="form-label">URL: </label>
-            <input type="text" v-model="editedFriend.photo">
+          <div class="form-item-date-container">
+            <div class="form-item">
+              <select class="form-item-date" v-model="editedFriend.birthDay">
+                <option v-for="birthDay in birthDays" :key="birthDay">
+                  {{ birthDay }}
+                </option>
+              </select>
+            </div>
+            <span class="form-item-date-span">of</span>
+            <div class="form-item">
+              <select class="form-item-date" v-model="editedFriend.birthMonth">
+                <option v-for="birthMonth in birthMonths" :key="birthMonth">
+                  {{ birthMonth }}
+                </option>
+              </select>
+            </div>
           </div>
-          <div class="form-item">
-            <label class="form-label">Dia: </label>
-            <select v-model="editedFriend.birthDay">
-              <option v-for="birthDay in birthDays" :key="birthDay">
-                {{ birthDay }}
-              </option>
-            </select>
-          </div>
-          <div class="form-item">
-            <label class="form-label">Mês: </label>
-            <select v-model="editedFriend.birthMonth">
-              <option v-for="birthMonth in birthMonths" :key="birthMonth">
-                {{ birthMonth }}
-              </option>
-            </select>
+          <div class="form-item-url-container">
+            <label class="form-item-url-label">Photo URL: </label>
+            <input type="text" class="form-item-url" v-model="editedFriend.photo">
           </div>
         </form>
           <button @click="onEditSubmit()">confirm</button>
@@ -132,13 +132,51 @@ export default {
 </script>
 
 <style scoped>
+.person-container-catalog .person-container {
+  box-shadow: none;
+}
+.edit-form {
+  display: flex;
+  height: 400px;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+.form-item-name{
+  font-size: 3em;
+  font-weight: 500;
+  display: flex;
+}
+.form-item-date-container{
+  display: flex;
+}
+.form-item-date {
+  font-size: 2em;
+}
+.form-item-date-span {
+  font-size: 1.5em;
+}
+.form-item-url {
+  font-size: 2em;
+}
+
+.form-item-url-container {
+  display: flex;
+  flex-direction: column;
+}
+.form-item-url-label{
+  text-align: left;
+}
 .catalog-container {
   width: 50%;
   margin: 0 auto;
 }
-.border{
-  border: 2px solid green;
-  width: max-content;
+.person-container-catalog{
+  width: 700px;
   padding: 5px;
+  margin: 20px;
+  background: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 5px 5px 15px rgba(186,126,126, .5);
 }
 </style>

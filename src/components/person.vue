@@ -31,13 +31,16 @@ export default {
 .person-container {
   display: flex;
   height: 400px;
-  width: 100%;
   justify-content: center;
   flex-direction: row;
   align-items: center;
   color: black;
   margin: 0 auto;
   text-align: left;
+  width: 700px;
+  background: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 5px 5px 15px rgba(186,126,126, .5);
 }
 .person-details-container {
   flex-direction: column;
