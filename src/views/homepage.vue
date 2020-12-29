@@ -64,11 +64,7 @@ export default {
 
     getPhotoOfFirstFriend() {
       let friends = this.friends;
-      for (let i = 0; i < friends.length; i++) {
-        if (friends[i].photo) {
-            return friends[i].photo;
-        }
-      }
+      return this.friends[0].photo;
     },
     getBirthMonthOfFirstFriend() {
       let friends = this.friends;
