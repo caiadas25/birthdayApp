@@ -10,6 +10,10 @@ add go back to top button to catalog view
 **DONE** add way to delete friends
 improve edit mode styling
 
+clean up css
+
+add scss support
+
 add authentication
 
 fix bug where the homepage does not display the next birthday if that birthday is in the current day (date is now tecnically in the past so the parsed property is empty)
